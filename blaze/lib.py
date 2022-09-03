@@ -1,6 +1,23 @@
 import sys
 import json
+import httpx
+import asyncio
 from pathlib import Path
+
+
+def batch_download(urls):
+    async def fetch(url):
+        async with httpx.AsyncClient() as client:
+            return await client.get(url) 
+
+    async def download():
+        return await asyncio.gather(*[fetch(url=url) for url in urls]) 
+
+    loop = asyncio.get_event_loop()
+    results = loop.run_until_complete(download())
+    loop.close() 
+
+    return results
 
 
 def read_settings():
@@ -24,3 +41,12 @@ def find_project_root():
         if settings_file.exists():
             return folder
 
+            
+def fill_dir(parent, file_descriptors):
+    for fd in file_descriptors:
+        descriptor = parent / Path(fd)
+        if descriptor.exists() == False:
+            if fd[-1] == '/':
+                descriptor.mkdir()
+            else:
+                descriptor.touch()
