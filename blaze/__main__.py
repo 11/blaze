@@ -11,7 +11,7 @@ def parseargs():
     # init cmd parser
     initializer = subparser.add_parser('init', help='Initialize a lit project')
     initializer.add_argument('folder', nargs='?', type=Path, help='Path to folder to initalize project in')
-    initializer.add_argument('-t', '--type', type=str, choices=['static', 'spa'], default='static', help='Lit projects can either be a static site, or a single page app') 
+    initializer.add_argument('-t', '--type', type=str, choices=['static', 'single-page'], default='static', help='Lit projects can either be a static site, or a single page app') 
     initializer.set_defaults(func=init)
 
     # build cmd parser
