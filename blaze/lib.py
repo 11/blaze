@@ -21,10 +21,14 @@ def batch_download(urls):
 
 
 def find_project_root():
-    for folder in Path.cwd().parents:
+    parent_dirs = list(Path.cwd().parents)
+    parent_dirs.insert(0, Path.cwd()) 
+    for folder in parent_dirs:
         settings_file = folder / Path('blaze.json')
         if settings_file.exists():
             return folder
+
+    sys.exit('Could not find root project. Try placing a `blaze.json` file in the root of your project.')
 
             
 def fill_dir(parent, file_descriptors):

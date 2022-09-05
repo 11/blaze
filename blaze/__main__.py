@@ -1,7 +1,7 @@
 from pathlib import Path
 from argparse import ArgumentParser
 
-from commands import init, build, serve
+from .commands import init, build, serve
 
 
 def parseargs():

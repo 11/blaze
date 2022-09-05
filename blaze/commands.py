@@ -1,9 +1,15 @@
 import subprocess
+import pdb
+
 from pathlib import Path 
 
 from touchdown import Markdown, Html
-from settings import read_settings, validate_settings, set_default_settings
-from lib import (
+from .settings import (
+    read_settings, 
+    validate_settings, 
+    set_default_settings,
+)
+from .lib import (
     fill_dir, 
     batch_download,
     find_project_root, 
@@ -22,7 +28,7 @@ def init(folder=Path('./'), type='static'):
         fill_dir(folder / Path('entries'), ['index.mdx'])
 
         # write defaults into config files and markdown templates
-        folder / Path('entries') / Path('index.mdx').write_text('Ignite the web 🔥')
+        (folder / Path('entries') / Path('index.mdx')).write_text('Ignite the web 🔥')
         blaze_json = folder / Path('blaze.json')
         blaze_json.write_text(set_default_settings(type))
     else: 
@@ -46,7 +52,6 @@ def init(folder=Path('./'), type='static'):
 
         index_mdx = folder / Path('entries/index.mdx')
         index_mdx.write_text('Ignite the web 🔥')
-
         blaze_json = folder / Path('blaze.json')
         blaze_json.write_text(set_default_settings(type))
 
@@ -58,16 +63,19 @@ def init(folder=Path('./'), type='static'):
 
 
 def build():
-    # validate settings
     settings = read_settings()
-    validate_settings(settings)
 
     # iterate over markdown files 
-    project_dir = find_project_dir() 
+    entries = settings['entries']
     for fd in entries.iterdir():
-        if fd.is_file() and (fd.suffix == 'md' or fd.suffix == 'mdx'):
-            # TODO parse markdown 
-            pass
+        if fd.is_file() and (fd.suffix == '.md' or fd.suffix == '.mdx'):
+            entry = Path(fd)
+
+            # TODO: organize touchdown to have cleaner library interface
+            tokenizer = Markdown(entry)
+            tokens = tokenizer.tokenize()
+            interpreter = Html(tokens)
+            html = interpreter.interpret()
 
 
 def serve(settings={}):
