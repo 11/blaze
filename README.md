@@ -38,7 +38,7 @@ user@~/Code/blaze-project $ blaze build
 #### Serve
 The `serve` command will take the built version of your project and run it locally. If you are working on a `static` project, this step will run a dev HTTP web server. If you are working on a `single-page` app, this will run a `webpack-dev-server` and listen for when local files change.
 
-Similar to the `build command, the `serve` command must be run somewhere within your project. 
+Similar to the `build` command, the `serve` command must be run somewhere within your Blaze project directory. Blaze treats the location of the `blaze.json` as the root of your project.
 
 ```bash
 user@~/Code/blaze-project $ blaze serve
@@ -56,3 +56,45 @@ You can modify many of your Blaze project's settings to your liking. These are t
 | `views`    | The directory `blaze build` will output your compiled markdown |
 | `port`     | The port your dev server will run on |
 | `project`  | The project type either `static` or `single-page` |
+
+---
+
+### Project Structure
+
+Depeding on the type of application this will be the project structure:
+
+#### Static
+```
+.
+├── blaze.json
+├── entries
+│   └── index.mdx
+├── index.html
+└── static
+    ├── css
+    ├── images
+    ├── js
+    └── views
+```
+
+#### Single-page
+```
+.
+├── _redirects
+├── blaze.json
+├── entries
+│   └── index.mdx
+├── node_modules
+│   ├── lit-element
+│   └── ... other random JS dependencies ...
+├── package-lock.json
+├── package.json
+├── src
+│   ├── components
+│   ├── index.html
+│   ├── index.js
+│   ├── routes.js
+│   ├── styles
+│   └── views
+└── webpack.config.js
+```
