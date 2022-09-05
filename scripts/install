@@ -1,0 +1,4 @@
+# !/bin/bas
+
+pip install $HOME/Code/blaze/
+

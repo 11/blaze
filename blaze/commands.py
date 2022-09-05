@@ -65,17 +65,28 @@ def init(folder=Path('./'), type='static'):
 def build():
     settings = read_settings()
 
-    # iterate over markdown files 
-    entries = settings['entries']
-    for fd in entries.iterdir():
-        if fd.is_file() and (fd.suffix == '.md' or fd.suffix == '.mdx'):
-            entry = Path(fd)
+    for entry in settings['entries'].iterdir():
+        # only parse markdown files
+        if not entry.is_file() or (entry.suffix != '.md' and entry.suffix != '.mdx'):
+            continue
 
-            # TODO: organize touchdown to have cleaner library interface
-            tokenizer = Markdown(entry)
-            tokens = tokenizer.tokenize()
-            interpreter = Html(tokens)
-            html = interpreter.interpret()
+        # parse html
+        tokenizer = Markdown(entry)
+        tokens = tokenizer.tokenize()
+        interpreter = Html(tokens)
+        html = interpreter.interpret()
+
+        # write HTML to correct file and folder
+        if settings['project'] == 'static':
+            dest = settings['views'] / Path(f'{entry.stem}.html') \
+                if entry.stem != 'index' \
+                else find_project_root() / Path('index.html')
+
+            dest.touch()
+            dest.write_text(html)
+        else:
+            # TODO: 
+            pass
 
 
 def serve(settings={}):
