@@ -9,7 +9,7 @@ Blaze is a site generator CLI for single-page applications developed with [lit-e
 Blaze comes bundled with 3 simple commands: `init`, `build`, `serve`.
 
 ### Init
-The `init` command will set a directory as a blaze project and configure the project folder structure. Depending on the type of project (`static` or `single-page`), the project structure will be differently as well as install Javascript dependencies. 
+The `init` command will set a directory as a blaze project, configure the project folder structure, and add create a default `blaze.json`. Depending on the type of project (`static` or `single-page`), the project structure will be configured differently - the main difference being that `single-page` projects include an install step for Javascript libraries. 
 - `static` is similar to a jekyll project 
 - `single-page` is similar to a create-react-app project
 
