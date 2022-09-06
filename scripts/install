@@ -1,4 +1,6 @@
 # !/bin/bas
 
+
+yes | pip install git+https://github.com/11/touchdown
 pip install $HOME/Code/blaze/
 

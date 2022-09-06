@@ -1,9 +1,8 @@
-import subprocess
 import pdb
-
+import subprocess
 from pathlib import Path 
 
-from touchdown import Markdown, Html
+import touchdown 
 from .settings import (
     read_settings, 
     validate_settings, 
@@ -71,10 +70,7 @@ def build():
             continue
 
         # parse html
-        tokenizer = Markdown(entry)
-        tokens = tokenizer.tokenize()
-        interpreter = Html(tokens)
-        html = interpreter.interpret()
+        html = touchdown.html(entry)
 
         # write HTML to correct file and folder
         if settings['project'] == 'static':

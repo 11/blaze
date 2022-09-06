@@ -1,5 +1,4 @@
-import setuptools 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 with open('README.md', 'r') as readme:
     long_description = readme.read()
