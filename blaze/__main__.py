@@ -23,8 +23,11 @@ def parseargs():
     server.set_defaults(func=serve)
     return vars(parser.parse_args())
 
-
-if __name__ == '__main__':
+def blaze():
+    """ this function is redundant, but required to make the `blaze` command on the comand line """ 
     kwargs = parseargs()
     cmd = kwargs.pop('func')
     cmd(**kwargs)
+
+if __name__ == '__main__':
+    blaze()
