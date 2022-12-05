@@ -13,14 +13,14 @@ with open('requirements.txt') as f:
 
 setup(
     name = 'blaze',
-    version='1.0',
+    version='1.0.2',
     description='site generator for lit-element projects',
     long_description=long_description,
     author='Doug Rudolph',
     url='https://github.com/11/blaze',
     packages=setuptools.find_packages(),
-    install_requires=required, 
-    
+    install_requires=required,
+
     # creates the `blaze` command on the commandline
     entry_points={
         'console_scripts': [
