@@ -1,17 +1,19 @@
-import pdb
+import json
 import subprocess
-from pathlib import Path 
+from pprint import pprint
+from pathlib import Path
+from datetime import date
 
-import touchdown 
+import touchdown
 from .settings import (
-    read_settings, 
-    validate_settings, 
+    read_settings,
+    validate_settings,
     set_default_settings,
 )
 from .lib import (
-    fill_dir, 
+    fill_dir,
     batch_download,
-    find_project_root, 
+    find_project_root,
 )
 
 
@@ -30,7 +32,7 @@ def init(folder=Path('./'), type='static'):
         (folder / Path('entries') / Path('index.mdx')).write_text('Ignite the web 🔥')
         blaze_json = folder / Path('blaze.json')
         blaze_json.write_text(set_default_settings(type))
-    else: 
+    elif type == 'single-page':
         # create folder structure
         print('Initializing project structure')
         fill_dir(folder, ['blaze.json', '_redirects', 'webpack.config.js', 'package.json', 'entries/', 'src/'])
@@ -69,20 +71,19 @@ def build():
         if not entry.is_file() or (entry.suffix != '.md' and entry.suffix != '.mdx'):
             continue
 
-        # parse html
-        html = touchdown.html(entry)
-
-        # write HTML to correct file and folder
         if settings['project'] == 'static':
+            entry_html = touchdown.to_html(entry)
             dest = settings['views'] / Path(f'{entry.stem}.html') \
                 if entry.stem != 'index' \
                 else find_project_root() / Path('index.html')
 
             dest.touch()
-            dest.write_text(html)
-        else:
-            # TODO: 
-            pass
+            dest.write_text(entry_html)
+        elif settings['project'] == 'single-page':
+            dest = settings['views'] / Path(f'{entry.stem}.json')
+            entry_json = touchdown.to_json(entry)
+            dest.touch()
+            dest.write_text(entry_json)
 
 
 def serve(settings={}):

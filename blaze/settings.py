@@ -28,7 +28,7 @@ def set_default_settings(type='static'):
     entries = './entries'
     views = './static/views/' \
         if type == 'static' \
-        else './src/views' 
+        else './src/views/'
 
     settings = {
         'project': project,
